@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VaultGrid — Password Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- ===================== AUTH VIEW ===================== -->
+  <section id="authView" class="auth-screen">
+    <div class="auth-grid">
+      <div class="auth-mark">
+        <span class="mark-index">01</span>
+        <h1>VaultGrid</h1>
+        <p class="mark-sub">A quiet place for your passwords.<br/>Everything below is encrypted with your master password.</p>
+      </div>
+
+      <div class="neu-card auth-card">
+        <div id="setupForm" class="hidden">
+          <p class="eyebrow">First time setup — 02</p>
+          <h2>Create your master password</h2>
+          <p class="auth-help">This single password locks and unlocks every entry in your vault. Choose something you'll remember — it cannot be recovered.</p>
+          <label class="field-label" for="setupPw">Master password</label>
+          <input id="setupPw" type="password" class="neu-input" placeholder="At least 8 characters" />
+          <label class="field-label" for="setupPw2">Confirm password</label>
+          <input id="setupPw2" type="password" class="neu-input" placeholder="Repeat it" />
+          <button id="setupBtn" class="btn-flat btn-accent full">Create vault →</button>
+          <p id="setupError" class="error-text"></p>
+        </div>
+
+        <div id="loginForm" class="hidden">
+          <p class="eyebrow">Welcome back — 02</p>
+          <h2>Unlock your vault</h2>
+          <p class="auth-help">Enter your master password to decrypt your saved accounts.</p>
+          <label class="field-label" for="loginPw">Master password</label>
+          <input id="loginPw" type="password" class="neu-input" placeholder="••••••••" />
+          <button id="loginBtn" class="btn-flat btn-accent full">Unlock →</button>
+          <p id="loginError" class="error-text"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== DASHBOARD VIEW ===================== -->
+  <section id="dashboardView" class="dashboard hidden">
+
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="mark-index small">01</span>
+        <span class="brand">VaultGrid</span>
+      </div>
+      <div class="topbar-right">
+        <button id="addBtn" class="btn-flat btn-accent">+ New entry</button>
+        <button id="logoutBtn" class="btn-flat btn-ghost">Lock vault</button>
+      </div>
+    </header>
+
+    <main class="bento">
+
+      <!-- stat cards -->
+      <div class="neu-card bento-stat span-1">
+        <span class="stat-index">01</span>
+        <span class="stat-number" id="statTotal">0</span>
+        <span class="stat-label">Saved accounts</span>
+      </div>
+      <div class="neu-card bento-stat span-1">
+        <span class="stat-index">02</span>
+        <span class="stat-number" id="statCategories">0</span>
+        <span class="stat-label">Categories</span>
+      </div>
+      <div class="neu-card bento-stat span-1 accent-stat">
+        <span class="stat-index">03</span>
+        <span class="stat-number">AES-256</span>
+        <span class="stat-label">Encryption at rest</span>
+      </div>
+
+      <!-- search / filter -->
+      <div class="neu-card bento-tools span-3">
+        <input id="searchInput" class="neu-input search" placeholder="Search by site or username…" />
+        <select id="categoryFilter" class="neu-input select"></select>
+      </div>
+
+      <!-- entries list -->
+      <div class="neu-card bento-list span-4" id="listCard">
+        <div class="list-head">
+          <span>Site</span><span>Username</span><span>Category</span><span>Updated</span><span></span>
+        </div>
+        <div id="entriesList" class="entries-list"></div>
+        <p id="emptyState" class="empty-state hidden">No entries yet — add your first saved account.</p>
+      </div>
+
+    </main>
+  </section>
+
+  <!-- ===================== ADD / EDIT MODAL ===================== -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="neu-card modal-card">
+      <p class="eyebrow" id="modalEyebrow">New entry — 03</p>
+      <h2 id="modalTitle">Add a saved account</h2>
+
+      <input type="hidden" id="entryId" />
+
+      <label class="field-label" for="entrySite">Site / service</label>
+      <input id="entrySite" class="neu-input" placeholder="e.g. github.com" />
+
+      <label class="field-label" for="entryUsername">Username / email</label>
+      <input id="entryUsername" class="neu-input" placeholder="e.g. jane@example.com" />
+
+      <label class="field-label" for="entryPassword">Password</label>
+      <div class="pw-row">
+        <input id="entryPassword" type="password" class="neu-input" placeholder="Leave blank to keep existing" />
+        <button id="genBtn" type="button" class="btn-flat btn-ghost small">Generate</button>
+      </div>
+      <div id="strengthBar" class="strength-bar"><span></span></div>
+
+      <label class="field-label" for="entryCategory">Category</label>
+      <input id="entryCategory" class="neu-input" placeholder="e.g. Work, Personal, Finance" />
+
+      <label class="field-label" for="entryNotes">Notes (optional)</label>
+      <textarea id="entryNotes" class="neu-input" rows="2" placeholder="Anything worth remembering"></textarea>
+
+      <div class="modal-actions">
+        <button id="cancelModalBtn" class="btn-flat btn-ghost">Cancel</button>
+        <button id="saveEntryBtn" class="btn-flat btn-accent">Save entry</button>
+      </div>
+      <p id="modalError" class="error-text"></p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

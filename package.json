@@ -1,0 +1,40 @@
+{
+  "name": "vaultgrid-password-manager",
+  "version": "1.0.0",
+  "description": "A local mini password manager with a master password, AES-256-GCM encrypted vault, and a Neumorphic/Swiss/Bento UI.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node server.js",
+    "electron": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0"
+  },
+  "devDependencies": {
+    "electron": "^32.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.vaultgrid.app",
+    "productName": "VaultGrid",
+    "directories": { "output": "dist" },
+    "files": [
+      "main.js",
+      "server.js",
+      "public/**/*",
+      "package.json",
+      "!data/vault.json"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  }
+}
